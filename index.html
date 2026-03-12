@@ -3,24 +3,64 @@
 
 <head>
 <title>Puffy Must-Dos</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f2f2f2;
+text-align:center;
+}
+
+ul{
+list-style:none;
+padding:0;
+}
+
+li{
+margin:10px;
+font-size:18px;
+}
+
+progress{
+width:300px;
+height:20px;
+}
+</style>
+
 </head>
 
 <body>
 
 <h1>Puffy Must-Dos</h1>
 
+<h3>Progress</h3>
+<progress id="progress" value="0" max="5"></progress>
+
 <h2>Daily Must-Dos</h2>
 <ul>
-<li><input type="checkbox"> 20–30 min Piano Practice</li>
-<li><input type="checkbox"> 30 min Reading</li>
+<li><input type="checkbox" onclick="updateProgress()"> 20–30 min Piano Practice</li>
+<li><input type="checkbox" onclick="updateProgress()"> 30 min Reading</li>
 </ul>
 
 <h2>Weekly Must-Dos</h2>
 <ul>
-<li><input type="checkbox"> AoPS</li>
-<li><input type="checkbox"> MrMath</li>
-<li><input type="checkbox"> Coding</li>
+<li><input type="checkbox" onclick="updateProgress()"> AoPS</li>
+<li><input type="checkbox" onclick="updateProgress()"> MrMath</li>
+<li><input type="checkbox" onclick="updateProgress()"> Coding</li>
 </ul>
+
+<script>
+function updateProgress(){
+let boxes = document.querySelectorAll("input[type='checkbox']")
+let checked = 0
+
+boxes.forEach(box=>{
+if(box.checked) checked++
+})
+
+document.getElementById("progress").value = checked
+}
+</script>
 
 </body>
 
