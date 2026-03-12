@@ -2,112 +2,83 @@
 <html>
 
 <head>
-<title>Puffy Must-Dos</title>
-
-<style>
-body{
-font-family: Arial;
-background:#f2f2f2;
-text-align:center;
-}
-
-ul{
-list-style:none;
-padding:0;
-}
-
-li{
-margin:10px;
-font-size:18px;
-}
-
-progress{
-width:300px;
-height:20px;
-}
-</style>
-
+<title>Puffy Must Dos</title>
 </head>
 
 <body>
 
-<h1>Puffy Must-Dos</h1>
-
-<h3>Progress</h3>
-<progress id="progress" value="0" max="5"></progress>
+<h1>Puffy Must Dos</h1>
 
 <h2>Daily Must-Dos</h2>
+
 <ul>
-<li><input type="checkbox" onclick="updateProgress()"> 20–30 min Piano Practice</li>
-<li><input type="checkbox" onclick="updateProgress()"> 30 min Reading</li>
+<li><input type="checkbox"> 20-30 min Piano Practice</li>
+<li><input type="checkbox"> 30 min Reading</li>
 </ul>
 
 <h2>Weekly Must-Dos</h2>
+
 <ul>
-<li><input type="checkbox" onclick="updateProgress()"> AoPS</li>
-<li><input type="checkbox" onclick="updateProgress()"> MrMath</li>
-<li><input type="checkbox" onclick="updateProgress()"> Coding</li>
+<li><input type="checkbox"> AoPS</li>
+<li><input type="checkbox"> MrMath</li>
+<li><input type="checkbox"> Coding</li>
 </ul>
 
 <h2>🔒 Locks</h2>
 
 <div>
-Video Game Lock (1 hour limit)<br>
-Ends in: <span id="lockTimer"></span>
+
+<h3>DonutSMP Ban Lock</h3>
+
+<button onclick="startLock()">Start Ban Lock</button>
+
+<p>Time Remaining: <span id="lockTimer">Not active</span></p>
+
 </div>
 
 <script>
 
-const boxes = document.querySelectorAll("input[type='checkbox']")
-const progress = document.getElementById("progress")
+let lockEnd = localStorage.getItem("lockEnd")
 
-boxes.forEach((box, index) => {
+function startLock(){
 
-  // load saved state
-  const saved = localStorage.getItem("task" + index)
-  if(saved === "true"){
-    box.checked = true
-  }
+let end = new Date().getTime() + ((8*24*60*60 + 23*60*60 + 22*60 + 30) * 1000)
 
-  box.addEventListener("change", () => {
-    localStorage.setItem("task" + index, box.checked)
-    updateProgress()
-  })
+localStorage.setItem("lockEnd", end)
 
-})
-
-function updateProgress(){
-  let count = 0
-
-  boxes.forEach(box=>{
-    if(box.checked){
-      count++
-    }
-  })
-
-  progress.value = count
+lockEnd = end
 }
 
-updateProgress()
+setInterval(()=>{
 
-const lockEnd = new Date("April 1, 2026 00:00:00").getTime()
+lockEnd = localStorage.getItem("lockEnd")
 
-setInterval(() => {
+if(!lockEnd){
+document.getElementById("lockTimer").innerText = "Not active"
+return
+}
 
 let now = new Date().getTime()
 let distance = lockEnd - now
 
-let days = Math.floor(distance / (1000 * 60 * 60 * 24))
-let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60))
-let minutes = Math.floor((distance % (1000*60*60)) / (1000*60))
-let seconds = Math.floor((distance % (1000*60)) / 1000)
+if(distance <= 0){
+document.getElementById("lockTimer").innerText = "Lock finished"
+localStorage.removeItem("lockEnd")
+return
+}
+
+let days = Math.floor(distance/(1000*60*60*24))
+let hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60))
+let minutes = Math.floor((distance%(1000*60*60))/(1000*60))
+let seconds = Math.floor((distance%(1000*60))/1000)
 
 document.getElementById("lockTimer").innerText =
-days + "d " + hours + "h " + minutes + "m " + seconds + "s"
+days+"d "+hours+"h "+minutes+"m "+seconds+"s"
 
 },1000)
+
 </script>
-  
+
 </body>
 
 </html>
