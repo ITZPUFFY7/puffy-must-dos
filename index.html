@@ -67,9 +67,7 @@ height:20px;
 
 <h3>DonutSMP Ban Lock</h3>
 
-<button onclick="startLock()">Start Ban Lock</button>
-
-<p id="lockTimer">Not Active</p>
+<p id="lockTimer"></p>
 
 </div>
 
@@ -92,24 +90,17 @@ progress.value = checked
 
 let lockEnd = localStorage.getItem("lockEnd")
 
-function startLock(){
+if(!lockEnd){
 
-let end = new Date().getTime() + ((8*24*60*60 + 23*60*60 + 22*60 + 30) * 1000)
+lockEnd = new Date().getTime() + ((8*24*60*60 + 23*60*60 + 22*60 + 30) * 1000)
 
-localStorage.setItem("lockEnd", end)
-
-lockEnd = end
+localStorage.setItem("lockEnd", lockEnd)
 
 }
 
 setInterval(()=>{
 
 lockEnd = localStorage.getItem("lockEnd")
-
-if(!lockEnd){
-document.getElementById("lockTimer").innerText="Not Active"
-return
-}
 
 let now = new Date().getTime()
 
@@ -119,18 +110,13 @@ if(distance <= 0){
 
 document.getElementById("lockTimer").innerText="Lock Finished"
 
-localStorage.removeItem("lockEnd")
-
 return
 
 }
 
 let days = Math.floor(distance/(1000*60*60*24))
-
 let hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60))
-
 let minutes = Math.floor((distance%(1000*60*60))/(1000*60))
-
 let seconds = Math.floor((distance%(1000*60))/1000)
 
 document.getElementById("lockTimer").innerText =
