@@ -49,6 +49,13 @@ height:20px;
 <li><input type="checkbox" onclick="updateProgress()"> Coding</li>
 </ul>
 
+<h2>🔒 Locks</h2>
+
+<div>
+Video Game Lock (1 hour limit)<br>
+Ends in: <span id="lockTimer"></span>
+</div>
+
 <script>
 
 const boxes = document.querySelectorAll("input[type='checkbox']")
@@ -83,6 +90,22 @@ function updateProgress(){
 
 updateProgress()
 
+const lockEnd = new Date("April 1, 2026 00:00:00").getTime()
+
+setInterval(() => {
+
+let now = new Date().getTime()
+let distance = lockEnd - now
+
+let days = Math.floor(distance / (1000 * 60 * 60 * 24))
+let hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60))
+let minutes = Math.floor((distance % (1000*60*60)) / (1000*60))
+let seconds = Math.floor((distance % (1000*60)) / 1000)
+
+document.getElementById("lockTimer").innerText =
+days + "d " + hours + "h " + minutes + "m " + seconds + "s"
+
+},1000)
 </script>
   
 </body>
