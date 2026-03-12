@@ -38,8 +38,8 @@ height:20px;
 
 <h2>Daily Must-Dos</h2>
 
-<label><input type="checkbox" class="task"> Piano Practice (20-30 min)</label><br>
-<label><input type="checkbox" class="task"> Read Book (30 min)</label>
+<label><input type="checkbox" class="task" id="task1"> Piano Practice (20-30 min)</label><br>
+<label><input type="checkbox" class="task" id="task2"> Read Book (30 min)</label>
 
 </div>
 
@@ -47,9 +47,9 @@ height:20px;
 
 <h2>Weekly Must-Dos</h2>
 
-<label><input type="checkbox" class="task"> AoPS</label><br>
-<label><input type="checkbox" class="task"> MrMath</label><br>
-<label><input type="checkbox" class="task"> Coding</label>
+<label><input type="checkbox" class="task" id="task3"> AoPS</label><br>
+<label><input type="checkbox" class="task" id="task4"> MrMath</label><br>
+<label><input type="checkbox" class="task" id="task5"> Coding</label>
 
 </div>
 
@@ -77,7 +77,21 @@ let tasks = document.querySelectorAll(".task")
 let progress = document.getElementById("progressBar")
 
 tasks.forEach(task=>{
-task.addEventListener("change",updateProgress)
+
+let saved = localStorage.getItem(task.id)
+
+if(saved === "true"){
+task.checked = true
+}
+
+task.addEventListener("change",()=>{
+
+localStorage.setItem(task.id, task.checked)
+
+updateProgress()
+
+})
+
 })
 
 function updateProgress(){
@@ -87,6 +101,8 @@ let checked = document.querySelectorAll(".task:checked").length
 progress.value = checked
 
 }
+
+updateProgress()
 
 let lockEnd = localStorage.getItem("lockEnd")
 
