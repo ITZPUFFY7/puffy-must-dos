@@ -5,7 +5,6 @@
 <title>Puffy Must Dos</title>
 
 <style>
-
 body{
 font-family: Arial;
 text-align: center;
@@ -25,7 +24,6 @@ progress{
 width:100%;
 height:20px;
 }
-
 </style>
 
 </head>
@@ -35,56 +33,52 @@ height:20px;
 <h1>Puffy Must Dos</h1>
 
 <div class="box">
-
 <h2>Daily Must-Dos</h2>
 
 <label><input type="checkbox" class="task" id="task1"> Piano Practice (20-30 min)</label><br>
 <label><input type="checkbox" class="task" id="task2"> Read Book (30 min)</label>
-
 </div>
 
 <div class="box">
-
 <h2>Weekly Must-Dos</h2>
 
 <label><input type="checkbox" class="task" id="task3"> AoPS</label><br>
 <label><input type="checkbox" class="task" id="task4"> MrMath</label><br>
 <label><input type="checkbox" class="task" id="task5"> Coding</label>
-
 </div>
 
 <div class="box">
-
 <h2>Progress</h2>
-
 <progress id="progressBar" value="0" max="5"></progress>
-
 </div>
 
 <div class="box">
-
 <h2>🔒 Locks</h2>
-
 <h3>DonutSMP Ban Lock</h3>
-
 <p id="lockTimer"></p>
-
 </div>
 
 <script>
 
-let tasks = document.querySelectorAll(".task")
-let progress = document.getElementById("progressBar")
+document.addEventListener("DOMContentLoaded", function(){
 
-tasks.forEach(task=>{
+const tasks = document.querySelectorAll(".task")
+const progress = document.getElementById("progressBar")
 
-let saved = localStorage.getItem(task.id)
+function updateProgress(){
+let checked = document.querySelectorAll(".task:checked").length
+progress.value = checked
+}
 
-if(saved === "true"){
+tasks.forEach(task => {
+
+let savedState = localStorage.getItem(task.id)
+
+if(savedState === "true"){
 task.checked = true
 }
 
-task.addEventListener("change",()=>{
+task.addEventListener("change", function(){
 
 localStorage.setItem(task.id, task.checked)
 
@@ -94,38 +88,29 @@ updateProgress()
 
 })
 
-function updateProgress(){
-
-let checked = document.querySelectorAll(".task:checked").length
-
-progress.value = checked
-
-}
-
 updateProgress()
 
 let lockEnd = localStorage.getItem("lockEnd")
 
 if(!lockEnd){
 
-lockEnd = new Date().getTime() + ((8*24*60*60 + 23*60*60 + 22*60 + 30) * 1000)
+lockEnd = Date.now() + ((8*24*60*60 + 23*60*60 + 22*60 + 30) * 1000)
 
 localStorage.setItem("lockEnd", lockEnd)
 
 }
 
-setInterval(()=>{
+setInterval(function(){
 
 lockEnd = localStorage.getItem("lockEnd")
 
-let now = new Date().getTime()
+let now = Date.now()
 
 let distance = lockEnd - now
 
 if(distance <= 0){
 
-document.getElementById("lockTimer").innerText="Lock Finished"
-
+document.getElementById("lockTimer").innerText = "Lock Finished"
 return
 
 }
@@ -136,12 +121,13 @@ let minutes = Math.floor((distance%(1000*60*60))/(1000*60))
 let seconds = Math.floor((distance%(1000*60))/1000)
 
 document.getElementById("lockTimer").innerText =
-days+"d "+hours+"h "+minutes+"m "+seconds+"s"
+days + "d " + hours + "h " + minutes + "m " + seconds + "s"
 
 },1000)
+
+})
 
 </script>
 
 </body>
-
 </html>
