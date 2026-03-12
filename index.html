@@ -52,27 +52,33 @@ height:20px;
 <script>
 
 const boxes = document.querySelectorAll("input[type='checkbox']")
+const progress = document.getElementById("progress")
 
-boxes.forEach((box, index)=>{
+boxes.forEach((box, index) => {
 
-// load saved state
-box.checked = localStorage.getItem("task"+index) === "true"
+  // load saved state
+  const saved = localStorage.getItem("task" + index)
+  if(saved === "true"){
+    box.checked = true
+  }
 
-box.addEventListener("change",()=>{
-localStorage.setItem("task"+index, box.checked)
-updateProgress()
-})
+  box.addEventListener("change", () => {
+    localStorage.setItem("task" + index, box.checked)
+    updateProgress()
+  })
 
 })
 
 function updateProgress(){
-let checked = 0
+  let count = 0
 
-boxes.forEach(box=>{
-if(box.checked) checked++
-})
+  boxes.forEach(box=>{
+    if(box.checked){
+      count++
+    }
+  })
 
-document.getElementById("progress").value = checked
+  progress.value = count
 }
 
 updateProgress()
