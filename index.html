@@ -1,33 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>Puffy Must-Dos</title>
-
-<style>
-
-body{
-font-family: Arial;
-background:#f2f2f2;
-text-align:center;
-}
-
-h1{
-color:#333;
-}
-
-ul{
-list-style:none;
-padding:0;
-}
-
-li{
-margin:10px;
-font-size:18px;
-}
-
-</style>
-
 </head>
 
 <body>
@@ -35,37 +9,17 @@ font-size:18px;
 <h1>Puffy Must-Dos</h1>
 
 <h2>Daily Must-Dos</h2>
-
 <ul>
-<li><input type="checkbox" id="piano"> 20–30 min Piano Practice</li>
-<li><input type="checkbox" id="reading"> 30 min Reading</li>
+<li><input type="checkbox"> 20–30 min Piano Practice</li>
+<li><input type="checkbox"> 30 min Reading</li>
 </ul>
 
 <h2>Weekly Must-Dos</h2>
-
 <ul>
-<li><input type="checkbox" id="aops"> AoPS</li>
-<li><input type="checkbox" id="mrmath"> MrMath</li>
-<li><input type="checkbox" id="coding"> Coding</li>
+<li><input type="checkbox"> AoPS</li>
+<li><input type="checkbox"> MrMath</li>
+<li><input type="checkbox"> Coding</li>
 </ul>
 
-<script>
-
-const tasks = ["piano","reading","aops","mrmath","coding"]
-
-tasks.forEach(task=>{
-let box = document.getElementById(task)
-
-box.checked = localStorage.getItem(task) === "true"
-
-box.addEventListener("change",()=>{
-localStorage.setItem(task, box.checked)
-})
-
-})
-
-</script>
-
 </body>
-
 </html>
